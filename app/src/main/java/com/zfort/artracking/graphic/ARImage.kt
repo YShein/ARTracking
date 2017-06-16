@@ -7,43 +7,46 @@ import org.artoolkit.ar6.base.rendering.ARDrawable
 import org.artoolkit.ar6.base.rendering.ShaderProgram
 import org.artoolkit.ar6.base.rendering.util.RenderUtils
 import java.io.InputStream
-import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 
 /**
  * Created by shein on 6/15/2017.
  */
 
-class ARImage : ARDrawable{
+class ARImage : ARDrawable {
 
     private var mVertexBuffer: FloatBuffer? = null
     private var shaderProgram: ShaderProgram? = null
 
-    private fun setArrays() {
-        val x = 0f
-        val y = 0f
-        val z = 0f
-        val hs = size / 2.0f
+    private fun draw(imagePath: String,
+                     width: Float,
+                     height: Float,
+                     projectionMatrix: FloatArray,
+                     modelViewMatrix: FloatArray) {
+        draw(projectionMatrix, modelViewMatrix)
 
-        /*
-        In the marker coordinate system z points from the marker up. x goes to the right and y to the top
-         */
-        val vertices = floatArrayOf(x - hs, y - hs, 0f,
-                x + hs, y - hs, 0f,
-                x + hs, y + hs, 0f,
-                x - hs, y + hs, 0f)
+        
 
-        mVertexBuffer = RenderUtils.buildFloatBuffer(vertices)
+
+        shaderProgram?.render(mVertexBuffer, null, null)
+
+    }
+
+    private fun calcVertexBuffer(width: Float, height: Float): FloatBuffer {
+        val halfWidth = width / 2.0f
+        val halfHeight = height / 2.0f
+
+        val vertices = floatArrayOf(-halfWidth, -halfHeight, 0f,
+                halfWidth, -halfHeight, 0f,
+                halfWidth, halfHeight, 0f,
+                -halfWidth, halfHeight, 0f)
+
+        return RenderUtils.buildFloatBuffer(vertices)
     }
 
     override fun draw(projectionMatrix: FloatArray, modelViewMatrix: FloatArray) {
         shaderProgram?.setProjectionMatrix(projectionMatrix)
         shaderProgram?.setModelViewMatrix(modelViewMatrix)
-
-
-
-        this.setArrays()
-        shaderProgram?.render(mVertexBuffer, null, null)
 
 
     }
