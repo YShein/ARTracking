@@ -6,4 +6,6 @@ package com.zfort.artracking.model
 data class Marker(val imagePath: String,
                   val maskImagePath: String,
                   val maskImageWidth: Float,
-                  val maskImageHeight: Float)
+                  val maskImageHeight: Float,
+                  var id: Int = -1,
+                  var textureId: Int = -1)

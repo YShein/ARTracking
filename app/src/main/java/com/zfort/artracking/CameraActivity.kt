@@ -6,7 +6,7 @@ import com.zfort.artracking.databinding.ActivityMainBinding
 import org.artoolkit.ar6.base.ARActivity
 
 
-class MainActivity : ARActivity() {
+class CameraActivity : ARActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -15,7 +15,7 @@ class MainActivity : ARActivity() {
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
     }
 
-    override fun supplyRenderer() = ARTackingRenderer(this)
+    override fun supplyRenderer() = ARTackingRenderer(emptyList())
 
     override fun supplyFrameLayout() = binding.flMain ?: error("Cant find FrameLayout")
 }
